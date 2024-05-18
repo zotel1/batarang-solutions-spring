@@ -1,5 +1,6 @@
 package com.batarangsolutionsspringmysql.demo.model;
 
+
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -7,9 +8,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public record DatosInvestigador<publicacion>(
        @JsonAlias("position") Integer posicion,
        @JsonAlias("title") String titulo,
-       @JsonAlias("summary") String sumario,
+       @JsonAlias("publication_info") String publi,
+       @JsonAlias("summary") String autor,
        @JsonAlias("snippet") String resumen,
-       @JsonAlias("name") String nombre
+       @JsonAlias("result_id") Integer id
 
-) {
-}
+)
+{}

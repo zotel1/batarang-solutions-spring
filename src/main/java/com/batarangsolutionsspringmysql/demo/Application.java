@@ -1,15 +1,15 @@
 package com.batarangsolutionsspringmysql.demo;
 
-import com.batarangsolutionsspringmysql.demo.principal.BatsiController;
+import com.batarangsolutionsspringmysql.demo.principal.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.batarangsolutionsspringmysql.demo.repository.InvestigadorRepository;
-
-import java.security.Principal;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+@EnableJpaRepositories
 public class Application implements CommandLineRunner {
 
 
@@ -23,7 +23,7 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		BatsiController principal = new BatsiController(repository);
+		Principal principal = new Principal(repository);
 		principal.muestraElMenu();
 			}
 		}

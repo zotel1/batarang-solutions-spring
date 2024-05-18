@@ -1,38 +1,54 @@
 package com.batarangsolutionsspringmysql.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "Investigadores")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Investigador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    @Column(unique = true)
+    @Column(name = "posicion")
+    @JsonProperty("position")
     private Integer posicion;
+    @Column(name = "titulo")
+    @JsonProperty("title")
     private String titulo;
-    private String sumario;
+    @Column(name = "autor")
+    @JsonProperty("summary")
+    private String autor;
+    @Column(name = "resumen")
+    @JsonProperty("snippet")
     private String resumen;
-    private String nombre;
+
+    @Column(name = "resultId")
+    @JsonProperty("result_id")
+    private String resultId;
+
 
     public Investigador() {}
 
     public Investigador(DatosInvestigador datosInvestigador) {
         this.posicion = datosInvestigador.posicion();
         this.titulo = datosInvestigador.titulo();
-        this.sumario = datosInvestigador.sumario();
+        this.autor = datosInvestigador.autor();
         this.resumen = datosInvestigador.resumen();
-        this.nombre = datosInvestigador.nombre();
+
     }
+
 
     @Override
     public String toString() {
         return "Investigador" +
                 "posicion=" + posicion +
                 ", titulo='" + titulo + '\'' +
-                ", sumario='" + sumario + '\'' +
-                ", resumen='" + resumen + '\'' +
-                ", nombre='" + nombre + '\'';
+                ", sumario='" + autor + '\'' +
+                ", resumen='" + resumen + '\'' ;
     }
 
     public Long getId() {
@@ -59,12 +75,12 @@ public class Investigador {
         this.titulo = titulo;
     }
 
-    public String getSumario() {
-        return sumario;
+    public String getAutor() {
+        return autor;
     }
 
-    public void setSumario(String sumario) {
-        this.sumario = sumario;
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
 
     public String getResumen() {
@@ -75,11 +91,11 @@ public class Investigador {
         this.resumen = resumen;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
+    // public String getNombre(List<DatosInvestigador> investigadores) {
+      //  return nombre;
+    //}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+   // public void setNombre(String nombre) {
+      //  this.nombre = nombre;
+    //}
 }
