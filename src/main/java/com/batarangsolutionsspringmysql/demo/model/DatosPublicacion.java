@@ -4,7 +4,14 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record DatosPublicacion<publicacion>(
-        @JsonAlias("summary") String autores
-) {
+public class DatosPublicacion{
+        @JsonAlias("summary") String summary;
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
 }

@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.*;
 
+import static java.util.Arrays.*;
+
 public class Principal {
     private Scanner teclado = new Scanner(System.in);
     private final String URL_BASE = "https://serpapi.com/search?engine=google_scholar&q=ciencia&api_key=";
@@ -74,28 +76,28 @@ public class Principal {
 
     private void getTop10Investigadores() {
         //private void getTop10Investigadores() {
-            // Realiza una solicitud a la API para obtener los datos de los investigadores
-            var json = consumoAPI.obtenerDatos(URL_BASE + APIKEY_SERP);
+        // Realiza una solicitud a la API para obtener los datos de los investigadores
+        var json = consumoAPI.obtenerDatos(URL_BASE + APIKEY_SERP);
         System.out.println(json);
 
-            // Convierte los datos JSON en un objeto Datos
-            Datos datos = conversor.obtenerDatos(json, Datos.class);
+        // Convierte los datos JSON en un objeto Datos
+        Datos datos = conversor.obtenerDatos(json, Datos.class);
 
-            // Obtiene el array de investigadores
-            Investigador[] todosLosInvestigadores = datos.getInvestigadores();
+        // Obtiene el array de investigadores
+        Investigador[] todosLosInvestigadores = datos.getInvestigadores();
 
-            // Ordena los investigadores por posición en orden ascendente y obtén los primeros 10
-            Arrays.sort(todosLosInvestigadores, Comparator.comparing(Investigador::getPosicion));
-            Investigador[] top10Investigadores = Arrays.copyOfRange(todosLosInvestigadores, 0, Math.min(10, todosLosInvestigadores.length));
+        // Ordena los investigadores por posición en orden ascendente y obtén los primeros 10
+        sort(todosLosInvestigadores, Comparator.comparing(Investigador::getPosicion));
+        Investigador[] top10Investigadores = copyOfRange(todosLosInvestigadores, 0, Math.min(10, todosLosInvestigadores.length));
 
-            // Imprime los 10 mejores investigadores
-            for (Investigador investigador : top10Investigadores) {
-               // System.out.println("Posición: " + (investigador.getPosicion() + 1) +
-                 //       ", Título: " + investigador.getTitulo() +
-                    //    ", Autor: " + investigador.getSumario());
-                System.out.println("Posición: " + (investigador.getPosicion() + 1 )+ ", Título: " + investigador.getTitulo() );
-            }
+        // Imprime los 10 mejores investigadores
+        for (Investigador investigador : top10Investigadores) {
+            // System.out.println("Posición: " + (investigador.getPosicion() + 1) +
+            //       ", Título: " + investigador.getTitulo() +
+            //    ", Autor: " + investigador.getSumario());
+            System.out.println("Posición: " + (investigador.getPosicion() + 1 )+ ", Título: " + investigador.getTitulo() + "Autores: " + investigador.getId());
         }
+    }
 
     private void findTop10ByOrderByPosicionAsc() {
         //private void getTop10Investigadores() {
@@ -106,21 +108,31 @@ public class Principal {
         // Convierte los datos JSON en un objeto Datos
         DatosAutores datosAutores = conversor.obtenerDatos(json, DatosAutores.class);
 
+        // Convierte los datos JSON en un objeto Datos
+        Datos datos = conversor.obtenerDatos(json, Datos.class);
+
         // Obtiene el array de investigadores
-        PublicacionInfo[] todosLosAutores = datosAutores.getPublicacionInfo() ;
+        Investigador[] todosLosInvestigadores = datos.getInvestigadores();
 
         // Ordena los investigadores por posición en orden ascendente y obtén los primeros 10
-        Arrays.sort(todosLosAutores, Comparator.comparing(PublicacionInfo::getAutores));
-        PublicacionInfo[] publicacionInfo= Arrays.copyOfRange(todosLosAutores, 0, Math.min(10, todosLosAutores.length));
+        sort(todosLosInvestigadores, Comparator.comparing(Investigador::getPosicion));
+        // Investigador[] top10Investigadores = Arrays.copyOfRange(todosLosInvestigadores, 0, Math.min(10, todosLosInvestigadores.length));
+
+        // Obtiene el array de investigadores
+        //PublicacionInfo[] todosLosAutores = datosAutores.getPublicacionInfo() ;
+
+        // Ordena los investigadores por posición en orden ascendente y obtén los primeros 10
+        //Arrays.sort(todosLosAutores, Comparator.comparing(PublicacionInfo::getAutores));
+        Investigador[] publicacionInfo=  copyOfRange(todosLosInvestigadores, 0, Math.min(10, todosLosInvestigadores.length));
 
         // Imprime los 10 mejores investigadores
-        for ( PublicacionInfo topAutores: publicacionInfo) {
+        for ( Investigador topAutores: publicacionInfo) {
             // System.out.println("Posición: " + (investigador.getPosicion() + 1) +
             //       ", Título: " + investigador.getTitulo() +
             //    ", Autor: " + investigador.getSumario());
-            System.out.println(topAutores.getAutores());
-           // System.out.println("Posición: " + (investigador.getPosicion() + 1 )+ ", Título: " + investigador.getTitulo() + ", Autor: " + );
+            System.out.println(topAutores.getAutor());
+            // System.out.println("Posición: " + (investigador.getPosicion() + 1 )+ ", Título: " + investigador.getTitulo() + ", Autor: " + );
         }
     }
-        }
+}
 
