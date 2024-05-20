@@ -29,6 +29,9 @@ public class Investigador {
     @Column(name = "resultId")
     @JsonProperty("result_id")
     private String resultId;
+    @OneToOne
+    @JoinColumn(name = "publicacion_info_id")
+    private PublicacionInfo publicacionInfo;
 
 
     public Investigador() {}
@@ -49,6 +52,14 @@ public class Investigador {
                 ", titulo='" + titulo + '\'' +
                 ", sumario='" + autor + '\'' +
                 ", resumen='" + resumen + '\'' ;
+    }
+
+    public PublicacionInfo getPublicacionInfo() {
+        return publicacionInfo;
+    }
+
+    public void setPublicacionInfo(PublicacionInfo publicacionInfo) {
+        this.publicacionInfo = publicacionInfo;
     }
 
     public Long getId() {

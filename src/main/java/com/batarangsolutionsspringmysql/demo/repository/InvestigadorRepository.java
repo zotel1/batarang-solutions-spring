@@ -1,6 +1,7 @@
 package com.batarangsolutionsspringmysql.demo.repository;
 
 import com.batarangsolutionsspringmysql.demo.model.Investigador;
+import com.batarangsolutionsspringmysql.demo.model.PublicacionInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Optional;
 
 public interface InvestigadorRepository extends JpaRepository<Investigador, Long> {
     List<Investigador> findTop10ByOrderByPosicionAsc();
+
 }
 
 

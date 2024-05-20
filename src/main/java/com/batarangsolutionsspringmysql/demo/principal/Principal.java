@@ -1,8 +1,7 @@
 package com.batarangsolutionsspringmysql.demo.principal;
 
-import com.batarangsolutionsspringmysql.demo.model.Datos;
-import com.batarangsolutionsspringmysql.demo.model.DatosInvestigador;
-import com.batarangsolutionsspringmysql.demo.model.Investigador;
+import com.batarangsolutionsspringmysql.demo.model.*;
+import com.batarangsolutionsspringmysql.demo.repository.Autorrepository;
 import com.batarangsolutionsspringmysql.demo.repository.InvestigadorRepository;
 import com.batarangsolutionsspringmysql.demo.service.ConsumoAPI;
 import com.batarangsolutionsspringmysql.demo.service.ConvierteDatos;
@@ -22,8 +21,10 @@ public class Principal {
     private ConsumoAPI consumoAPI = new ConsumoAPI();
     private ConvierteDatos conversor = new ConvierteDatos();
     private List<DatosInvestigador> datosInvestigador = new ArrayList<>();
+    private Autorrepository autorrepository;
     private InvestigadorRepository repositorio;
     private List<Investigador> investigador;
+    private List<PublicacionInfo> autores;
     private Optional<Investigador> investigadorBuscado;
 
 
@@ -59,7 +60,7 @@ public class Principal {
                     getTop10Investigadores();
                     break;
                 case 2:
-                  //buscarInvestigadorPosicion();
+                    findTop10ByOrderByPosicionAsc();
                    break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -92,8 +93,34 @@ public class Principal {
                // System.out.println("Posición: " + (investigador.getPosicion() + 1) +
                  //       ", Título: " + investigador.getTitulo() +
                     //    ", Autor: " + investigador.getSumario());
-                System.out.println("Posición: " + (investigador.getPosicion() + 1 )+ ", Título: " + investigador.getTitulo() + ", Autor: " + investigador.getAutor());
+                System.out.println("Posición: " + (investigador.getPosicion() + 1 )+ ", Título: " + investigador.getTitulo() );
             }
         }
+
+    private void findTop10ByOrderByPosicionAsc() {
+        //private void getTop10Investigadores() {
+        // Realiza una solicitud a la API para obtener los datos de los investigadores
+        var json = consumoAPI.obtenerDatos(URL_BASE + APIKEY_SERP);
+        System.out.println(json);
+
+        // Convierte los datos JSON en un objeto Datos
+        DatosAutores datosAutores = conversor.obtenerDatos(json, DatosAutores.class);
+
+        // Obtiene el array de investigadores
+        PublicacionInfo[] todosLosAutores = datosAutores.getPublicacionInfo() ;
+
+        // Ordena los investigadores por posición en orden ascendente y obtén los primeros 10
+        Arrays.sort(todosLosAutores, Comparator.comparing(PublicacionInfo::getAutores));
+        PublicacionInfo[] publicacionInfo= Arrays.copyOfRange(todosLosAutores, 0, Math.min(10, todosLosAutores.length));
+
+        // Imprime los 10 mejores investigadores
+        for ( PublicacionInfo topAutores: publicacionInfo) {
+            // System.out.println("Posición: " + (investigador.getPosicion() + 1) +
+            //       ", Título: " + investigador.getTitulo() +
+            //    ", Autor: " + investigador.getSumario());
+            System.out.println(topAutores.getAutores());
+           // System.out.println("Posición: " + (investigador.getPosicion() + 1 )+ ", Título: " + investigador.getTitulo() + ", Autor: " + );
+        }
+    }
         }
 
